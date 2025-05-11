@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Blind-Spot Expander | Shroomtop420™</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-zinc-900 text-white font-mono p-4">
+  <main class="max-w-3xl mx-auto space-y-6">
+    <h1 class="text-3xl font-bold text-pink-400 text-center">Shroomtop420™ Blind‑Spot Expander</h1>
+    <p class="text-center text-sm text-gray-400">Version 1.0 — Specter Audit Mode</p>
+
+    <form id="expanderForm" class="space-y-4">
+      <div>
+        <label class="block text-sm text-gray-300 mb-1">Project Description (≤150 words)</label>
+        <textarea id="context" rows="4" class="w-full p-2 bg-zinc-800 border border-zinc-700 rounded resize-none" placeholder="Describe your tool, app, GPT, or stack..."></textarea>
+      </div>
+      <div>
+        <label class="block text-sm text-gray-300 mb-1">Known Done List</label>
+        <textarea id="known" rows="3" class="w-full p-2 bg-zinc-800 border border-zinc-700 rounded resize-none" placeholder="List what's already been handled..."></textarea>
+      </div>
+      <button type="submit" class="w-full bg-pink-600 hover:bg-pink-700 rounded text-white font-bold py-2">
+        Generate Meta-Prompt
+      </button>
+    </form>
+
+    <section id="outputBox" class="hidden mt-6">
+      <h2 class="text-xl font-bold text-green-400 mb-2">Paste this into ChatGPT</h2>
+      <textarea id="output" class="w-full bg-zinc-800 text-green-300 p-4 border border-green-500 rounded h-[600px] resize-none" readonly></textarea>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('expanderForm');
+    const output = document.getElementById('output');
+    const outputBox = document.getElementById('outputBox');
+
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const ctx = document.getElementById('context').value.trim();
+      const known = document.getElementById('known').value.trim();
+
+      const prompt = `🧠  SHROOMTOP420™  BLIND‑SPOT EXPANDER  v1.0
+
+ROLE: You are an antifragile, adversarial‑grade strategist nicknamed “Specter.”
+OBJECTIVE: Identify *everything* the operator (Alex / Shroomtop420™) has not yet considered but **should** include before shipping.
+
+CONTEXT BLOCK ① – CURRENT PROJECT  
+<<<  
+${ctx || 'Project description not provided. Infer from domain.'}  
+>>>
+
+CONTEXT BLOCK ② – KNOWN DONE LIST  
+<<<  
+${known || 'None listed. Assume full inference required.'}  
+>>>
+
+DELIVERABLES  
+1. **Category Sweep Table** – for each of the 12 domains below, list:  
+   • Missing Item / Risk  
+   • Why it matters (≤1 sentence)  
+   • Impact score (1‑10)  
+   • Quick fix / next action  
+   Domains = [Technical Architecture, Security, Compliance, Payments & Tax, Licensing & IP, UX / Accessibility, Scaling & DevOps, Observability & Logs, Automation / CI, Docs & Support, Marketing & Growth, Legal & Risk]
+
+2. **Edge‑Case Burst** – List 10 “black‑swan” or low‑probability scenarios that could break, exploit, or legally endanger the project.
+
+3. **Opportunity Radar** – Brainstorm 10 monetization or feature opportunities *not yet listed* that align with Shroomtop420™ goals (e.g., MRR, frictionless paywalls, offline unlocks, prompt licensing).
+
+4. **Priority Roadmap** – Propose a 7‑step action path sorted by highest (Impact ÷ Effort) value.
+
+5. **1‑Sentence Executive Recap** – Close with a 25‑word max TL;DR insight.
+
+CONSTRAINTS  
+- Format tables in Markdown.  
+- No fluff, no moralizing, no sycophancy—pure actionable insight.  
+- Use bold for critical blockers.  
+- Keep total output ≤1,500 words.
+
+BEGIN.`;
+
+      output.value = prompt;
+      outputBox.classList.remove('hidden');
+      output.select();
+    });
+  </script>
+</body>
+</html>
